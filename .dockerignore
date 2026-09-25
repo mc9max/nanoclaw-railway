@@ -9,7 +9,6 @@ npm-debug.log
 .npmrc
 .eslintrc*
 eslint.config.js
-tsconfig.json
 *.md
 !CLAUDE.md
 !README.md
