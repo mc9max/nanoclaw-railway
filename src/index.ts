@@ -770,7 +770,7 @@ async function main(): Promise<void> {
         '',
         '════════════════════════════════════════════════════════════',
         '  NanoClaw is running but no channels are configured.',
-        '  Add at least one channel\'s env vars and restart:',
+        "  Add at least one channel's env vars and restart:",
         '',
         '  Slack:     SLACK_BOT_TOKEN + SLACK_APP_TOKEN',
         '  Telegram:  TELEGRAM_BOT_TOKEN',
