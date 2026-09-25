@@ -6,7 +6,7 @@ FROM node:22-slim AS agent-builder
 
 WORKDIR /build/agent-runner
 COPY container/agent-runner/package*.json ./
-RUN npm install
+RUN npm install --ignore-scripts
 COPY container/agent-runner/ ./
 RUN npm run build
 
@@ -15,7 +15,7 @@ FROM node:22-slim AS host-builder
 
 WORKDIR /build/host
 COPY package*.json ./
-RUN npm install
+RUN npm install --ignore-scripts
 COPY tsconfig.json ./
 COPY src/ ./src/
 RUN npm run build
@@ -24,9 +24,10 @@ RUN npm run build
 FROM node:22-slim
 
 # Install system dependencies for Chromium (used by agent-browser)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     fonts-liberation \
+    fonts-noto-cjk \
     fonts-noto-color-emoji \
     libgbm1 \
     libnss3 \
