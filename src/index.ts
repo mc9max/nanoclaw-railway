@@ -607,6 +607,15 @@ function recoverPendingMessages(): void {
 }
 
 function ensureContainerSystemRunning(): void {
+  // Railway spawns agent runners as child Node.js processes (see
+  // container-runner.ts IS_RAILWAY branch → railway-runner.ts), so no
+  // Docker/container runtime is installed or required at startup.
+  if (IS_RAILWAY) {
+    logger.info(
+      'Railway mode: skipping container runtime check (agents run as child processes)',
+    );
+    return;
+  }
   ensureContainerRuntimeRunning();
   cleanupOrphans();
 }
