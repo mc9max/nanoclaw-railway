@@ -6,7 +6,7 @@ FROM node:22-slim AS agent-builder
 
 WORKDIR /build/agent-runner
 COPY container/agent-runner/package*.json ./
-RUN npm install --ignore-scripts
+RUN npm install --no-audit --no-fund
 COPY container/agent-runner/ ./
 RUN npm run build
 
@@ -15,7 +15,11 @@ FROM node:22-slim AS host-builder
 
 WORKDIR /build/host
 COPY package*.json ./
-RUN npm install --ignore-scripts
+# HUSKY=0 skips the 'prepare' hook (no .git in the build context).
+# Install scripts must run: better-sqlite3 (prebuild-install) and sharp
+# need their native binaries built/downloaded at install time.
+ENV HUSKY=0
+RUN npm install --no-audit --no-fund
 COPY tsconfig.json ./
 COPY src/ ./src/
 RUN npm run build
