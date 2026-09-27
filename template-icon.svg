@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+  <!-- abstract claw mark: two rounded pincer lobes + hinge -->
+  <g fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 168 C 66 168 76 128 96 116 C 88 96 96 72 118 66 C 142 60 158 76 156 96"/>
+    <path d="M156 96 C 172 88 196 96 200 118 C 204 140 188 158 168 166"/>
+    <path d="M168 166 C 176 178 172 194 158 184"/>
+    <path d="M96 168 C 102 178 114 182 124 178"/>
+    <circle cx="128" cy="128" r="10" fill="#ffffff" stroke="none"/>
+  </g>
+</svg>
