@@ -1,0 +1,58 @@
+{
+  "ANTHROPIC_API_KEY": {
+    "value": "",
+    "description": "API key for Claude model access from console.anthropic.com. Required — the bot cannot start without it."
+  },
+  "ASSISTANT_NAME": {
+    "value": "Andy",
+    "description": "Bot display name. On first startup, a chat group with this exact name is auto-registered as the main group."
+  },
+  "TZ": {
+    "value": "UTC",
+    "description": "Timezone for message timestamps and scheduled tasks (e.g. America/Los_Angeles)."
+  },
+  "GITHUB_TOKEN": {
+    "value": "",
+    "description": "GitHub personal access token — only needed to install skills from private repos."
+  },
+  "SLACK_BOT_TOKEN": {
+    "value": "",
+    "description": "Slack Bot User OAuth Token (xoxb-...). Leave empty to skip the Slack channel."
+  },
+  "SLACK_APP_TOKEN": {
+    "value": "",
+    "description": "Slack App-Level Token for Socket Mode (xapp-...)."
+  },
+  "SLACK_MAIN_CHANNEL_ID": {
+    "value": "",
+    "description": "Optional Slack channel ID auto-registered as the main group on first startup."
+  },
+  "TELEGRAM_BOT_TOKEN": {
+    "value": "",
+    "description": "Telegram bot token from @BotFather (123456:ABC-...). Leave empty to skip the Telegram channel."
+  },
+  "DISCORD_BOT_TOKEN": {
+    "value": "",
+    "description": "Discord bot token from the Discord Developer Portal (enable Message Content Intent). Leave empty to skip the Discord channel."
+  },
+  "WHATSAPP_PHONE": {
+    "value": "",
+    "description": "WhatsApp bot phone number in international format, no plus sign (e.g. 12125551234). Leave empty to skip the WhatsApp channel."
+  },
+  "ASSISTANT_HAS_OWN_NUMBER": {
+    "value": "false",
+    "description": "Set true only if the WhatsApp number is NOT a secondary number (i.e. the bot owns its only number)."
+  },
+  "GMAIL_CLIENT_ID": {
+    "value": "",
+    "description": "Google OAuth 2.0 Client ID for the Gmail channel (Desktop app type). Leave empty to skip the Gmail channel."
+  },
+  "GMAIL_CLIENT_SECRET": {
+    "value": "",
+    "description": "Google OAuth Client Secret."
+  },
+  "GMAIL_REFRESH_TOKEN": {
+    "value": "",
+    "description": "Google OAuth refresh token (see README for the oauth playground flow)."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "ANTHROPIC_API_KEY": {
+    "defaultValue": "",
+    "description": "API key for Claude model access from console.anthropic.com. Required — the bot cannot start without it.",
+    "isOptional": false
+  },
+  "ASSISTANT_NAME": {
+    "defaultValue": "Andy",
+    "description": "Bot display name. On first startup, a chat group with this exact name is auto-registered as the main group.",
+    "isOptional": true
+  },
+  "TZ": {
+    "defaultValue": "UTC",
+    "description": "Timezone for message timestamps and scheduled tasks (e.g. America/Los_Angeles).",
+    "isOptional": true
+  },
+  "GITHUB_TOKEN": {
+    "defaultValue": "",
+    "description": "GitHub personal access token — only needed to install skills from private repos.",
+    "isOptional": true
+  },
+  "SLACK_BOT_TOKEN": {
+    "defaultValue": "",
+    "description": "Slack Bot User OAuth Token (xoxb-...). Leave empty to skip the Slack channel.",
+    "isOptional": true
+  },
+  "SLACK_APP_TOKEN": {
+    "defaultValue": "",
+    "description": "Slack App-Level Token for Socket Mode (xapp-...).",
+    "isOptional": true
+  },
+  "SLACK_MAIN_CHANNEL_ID": {
+    "defaultValue": "",
+    "description": "Optional Slack channel ID auto-registered as the main group on first startup.",
+    "isOptional": true
+  },
+  "TELEGRAM_BOT_TOKEN": {
+    "defaultValue": "",
+    "description": "Telegram bot token from @BotFather (123456:ABC-...). Leave empty to skip the Telegram channel.",
+    "isOptional": true
+  },
+  "DISCORD_BOT_TOKEN": {
+    "defaultValue": "",
+    "description": "Discord bot token from the Discord Developer Portal (enable Message Content Intent). Leave empty to skip the Discord channel.",
+    "isOptional": true
+  },
+  "WHATSAPP_PHONE": {
+    "defaultValue": "",
+    "description": "WhatsApp bot phone number in international format, no plus sign (e.g. 12125551234). Leave empty to skip the WhatsApp channel.",
+    "isOptional": true
+  },
+  "ASSISTANT_HAS_OWN_NUMBER": {
+    "defaultValue": "false",
+    "description": "Set true only if the WhatsApp number is NOT a secondary number (i.e. the bot owns its only number).",
+    "isOptional": true
+  },
+  "GMAIL_CLIENT_ID": {
+    "defaultValue": "",
+    "description": "Google OAuth 2.0 Client ID for the Gmail channel (Desktop app type). Leave empty to skip the Gmail channel.",
+    "isOptional": true
+  },
+  "GMAIL_CLIENT_SECRET": {
+    "defaultValue": "",
+    "description": "Google OAuth Client Secret.",
+    "isOptional": true
+  },
+  "GMAIL_REFRESH_TOKEN": {
+    "defaultValue": "",
+    "description": "Google OAuth refresh token (see README for the oauth playground flow).",
+    "isOptional": true
+  }
+}

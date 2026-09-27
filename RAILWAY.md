@@ -1,5 +1,7 @@
 # Deploy and Host NanoClaw on Railway
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/nanoclaw-1)
+
 NanoClaw is a personal AI assistant powered by Claude that connects to messaging channels (Slack, Telegram, Discord, WhatsApp, Gmail). It runs Claude Agent SDK in isolated processes, giving each group its own memory, skills, and tools - including web browsing, file management, and scheduled tasks.
 
 ## About Hosting NanoClaw
@@ -14,7 +16,7 @@ All five channels (Slack, Telegram, Discord, WhatsApp, Gmail) are pre-installed.
 - Group-aware assistant that maintains separate memory and context per chat group, with customizable triggers and behavior
 - Scheduled task automation with recurring prompts (daily summaries, reminders, monitoring) running on cron schedules
 
-## Dependencies
+## Dependencies for NanoClaw
 
 - An Anthropic API key (`ANTHROPIC_API_KEY`)
 - At least one channel's credentials (see [Available Channels](#available-channels) below)
@@ -154,64 +156,6 @@ The agent calls the `install_skills` MCP tool, which runs `npx skills add` behin
 ### Required credentials
 
 Some skills declare required environment variables (API keys, endpoints) in their `SKILL.md` frontmatter under `inputs`. After installing, the agent will list any missing credentials and ask you to add them in the **Railway service dashboard** (Environment Variables section). Once added, redeploy the service for them to take effect. All env vars set in Railway service config are automatically forwarded to agents — no `.env` file needed.
-
-### Auto-update on deploy
-
-Every time the Railway service restarts (deploy, crash recovery, manual restart), NanoClaw reads `data/skills-lock.json` from the persistent volume and re-installs all registered skill repos via `npx skills add`. This means:
-
-- **Skills always pull the latest version** from their source repo on every deploy
-- **No manual update step needed** — push changes to the skills repo, redeploy NanoClaw, done
-- **Skills survive deploys** — the lock file persists on the volume even though the app directory is ephemeral
-
-### Removing skills
-
-To remove a skill repo, delete its entry from `data/skills-lock.json` on the persistent volume and redeploy. The skill files won't be re-installed on next startup.
-
-### How it works under the hood
-
-1. `install_skills` IPC task runs `npx skills add {repo} --all --copy --agent claude-code` in a temp directory
-2. Installed skills are copied from the temp `.claude/skills/` into `container/skills/`
-3. The repo is recorded in `data/skills-lock.json` (persistent volume)
-4. At startup, `syncSkillsOnStartup()` loops through the lock file and re-runs `npx skills add` for each repo
-5. `container/skills/` is synced into each group's `.claude/skills/` before every agent invocation
-6. Skill `inputs` (env vars) are parsed from SKILL.md frontmatter and forwarded to agents as secrets
-
-## Agent Capabilities
-
-Each agent invocation has access to:
-
-- **Tools:** Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, Task management, MCP tools, Skills
-- **Web browsing:** Chromium is bundled in the Docker image for screenshots and page rendering
-- **Scheduled tasks:** Cron-based recurring prompts with optional pre-scripts that decide whether to wake the agent
-- **Reply context:** When replying to a message, the agent sees the quoted message content and sender
-- **Markdown formatting:** Outbound messages render with bold, code blocks, and links on Telegram/Slack
-- **Auto-compact:** Agent sessions auto-compact at 165k tokens to prevent context overflow
-- **Session cleanup:** Stale session artifacts are pruned automatically on startup and daily
-- **Per-group memory:** Each group has isolated CLAUDE.md, conversation history, and session state
-
-## Differences from the Local (Docker) Setup
-
-The upstream [NanoClaw repository](https://github.com/qwibitai/nanoclaw) runs each agent invocation inside a Docker container, providing OS-level isolation between the host and the agent's filesystem. On Railway, Docker-in-Docker is not available, so agents run as child Node.js processes instead. Here's what changes:
-
-| Feature | Local (Docker) | Railway |
-|---------|---------------|---------|
-| Agent isolation | Each agent runs in its own container with separate filesystem | Agents run as child processes sharing the host filesystem |
-| Credential injection | OneCLI gateway intercepts HTTPS traffic | Local credential proxy on `127.0.0.1:3001` — agent gets a proxy URL, never the real API key |
-| Filesystem sandboxing | Container mounts restrict what the agent can read/write | Directory-based separation (no OS-level enforcement) |
-| Resource limits | Docker CPU/memory limits per container | Railway service-level resource limits |
-| Availability | Depends on your machine being on and connected | Always on - Railway keeps the service running 24/7 |
-| Network | Requires stable home internet and open ports | Railway handles networking, SSL, and uptime |
-
-### Why This Is Fine for Personal Use
-
-NanoClaw is designed as a **personal assistant** - you control who has access and what groups are registered. The agent already runs with `--dangerously-skip-permissions` (bypassing Claude Code's permission prompts), so container isolation is a defense-in-depth layer, not the primary security boundary. For a single-user deployment:
-
-- **You are the only one sending prompts** - there's no untrusted input that could exploit the lack of sandboxing
-- **The agent only writes to its group folder** - the Claude SDK's working directory is scoped to `/data/groups/{group}/`
-- **Secrets are protected** - Anthropic API keys are handled by a local credential proxy (the agent never sees the real key). Non-Anthropic secrets (MCP vars, channel tokens) are passed via stdin with a minimal env allowlist. All secrets are stripped from Bash subprocesses by a PreToolUse hook
-- **The real advantage is uptime** - Railway keeps your assistant available 24/7 without needing an always-on home machine
-
-If you need multi-tenant isolation or expose the bot to untrusted users, consider the local Docker setup instead.
 
 ## Why Deploy NanoClaw on Railway?
 
