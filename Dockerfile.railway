@@ -95,8 +95,9 @@ RUN chmod +x /docker-entrypoint-railway.sh
 EXPOSE 3001
 
 # Proxy relays Anthropic API traffic; auth probes return 401 without creds (reachable = healthy)
+# NOTE: no -f flag — GET / returns 404 by design (Anthropic API banner); connectivity is what matters
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -sf -o /dev/null http://127.0.0.1:3001/ || exit 1
+    CMD curl -s -o /dev/null http://127.0.0.1:3001/ || exit 1
 
 ENTRYPOINT ["/docker-entrypoint-railway.sh"]
 CMD ["node", "dist/index.js"]
